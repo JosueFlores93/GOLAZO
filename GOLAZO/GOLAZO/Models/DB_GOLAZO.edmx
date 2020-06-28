@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GolazoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CANCHA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VALOR_HORA" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DEPORTE" Type="int" Nullable="false" />
+          <Property Name="PISO_CANCHA" Type="int" Nullable="false" />
+          <Property Name="COMPLEJO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMPLEJO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UBICACION" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LANDLORD" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DEPORTE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HORA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BLOQUE_HORARIO" Type="int" Nullable="false" />
+          <Property Name="FECHA" Type="date" Nullable="false" />
+          <Property Name="DISPONIBLE" Type="bit" />
+          <Property Name="CANCHA" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LANDLORD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RUT" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="NOMBRE" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="APELLIDO" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PASSWORD" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PISO_CANCHA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RESERVA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FECHA" Type="date" Nullable="false" />
+          <Property Name="VIGENCIA" Type="bit" Nullable="false" />
+          <Property Name="HORA" Type="int" Nullable="false" />
+          <Property Name="TENANT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TENANT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RUN" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="NOMBRE" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PASSWORD" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CANCHA__COMPLEJO__35BCFE0A">
+          <End Role="COMPLEJO" Type="Self.COMPLEJO" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPLEJO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="COMPLEJO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANCHA__DEPORTE__33D4B598">
+          <End Role="DEPORTE" Type="Self.DEPORTE" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPORTE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="DEPORTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANCHA__PISO_CAN__34C8D9D1">
+          <End Role="PISO_CANCHA" Type="Self.PISO_CANCHA" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PISO_CANCHA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="PISO_CANCHA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__COMPLEJO__LANDLO__2D27B809">
+          <End Role="LANDLORD" Type="Self.LANDLORD" Multiplicity="1" />
+          <End Role="COMPLEJO" Type="Self.COMPLEJO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LANDLORD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMPLEJO">
+              <PropertyRef Name="LANDLORD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HORA__CANCHA__38996AB5">
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="1" />
+          <End Role="HORA" Type="Self.HORA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CANCHA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HORA">
+              <PropertyRef Name="CANCHA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVA__HORA__3E52440B">
+          <End Role="HORA" Type="Self.HORA" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="HORA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVA__TENANT__3F466844">
+          <End Role="TENANT" Type="Self.TENANT" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TENANT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="TENANT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GolazoDBModelStoreContainer">
+          <EntitySet Name="CANCHA" EntityType="Self.CANCHA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPLEJO" EntityType="Self.COMPLEJO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEPORTE" EntityType="Self.DEPORTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HORA" EntityType="Self.HORA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LANDLORD" EntityType="Self.LANDLORD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PISO_CANCHA" EntityType="Self.PISO_CANCHA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESERVA" EntityType="Self.RESERVA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TENANT" EntityType="Self.TENANT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CANCHA__COMPLEJO__35BCFE0A" Association="Self.FK__CANCHA__COMPLEJO__35BCFE0A">
+            <End Role="COMPLEJO" EntitySet="COMPLEJO" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANCHA__DEPORTE__33D4B598" Association="Self.FK__CANCHA__DEPORTE__33D4B598">
+            <End Role="DEPORTE" EntitySet="DEPORTE" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANCHA__PISO_CAN__34C8D9D1" Association="Self.FK__CANCHA__PISO_CAN__34C8D9D1">
+            <End Role="PISO_CANCHA" EntitySet="PISO_CANCHA" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__COMPLEJO__LANDLO__2D27B809" Association="Self.FK__COMPLEJO__LANDLO__2D27B809">
+            <End Role="LANDLORD" EntitySet="LANDLORD" />
+            <End Role="COMPLEJO" EntitySet="COMPLEJO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HORA__CANCHA__38996AB5" Association="Self.FK__HORA__CANCHA__38996AB5">
+            <End Role="CANCHA" EntitySet="CANCHA" />
+            <End Role="HORA" EntitySet="HORA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVA__HORA__3E52440B" Association="Self.FK__RESERVA__HORA__3E52440B">
+            <End Role="HORA" EntitySet="HORA" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVA__TENANT__3F466844" Association="Self.FK__RESERVA__TENANT__3F466844">
+            <End Role="TENANT" EntitySet="TENANT" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GolazoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CANCHA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VALOR_HORA" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DEPORTE" Type="Int32" Nullable="false" />
+          <Property Name="PISO_CANCHA" Type="Int32" Nullable="false" />
+          <Property Name="COMPLEJO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="COMPLEJO1" Relationship="Self.FK__CANCHA__COMPLEJO__35BCFE0A" FromRole="CANCHA" ToRole="COMPLEJO" />
+          <NavigationProperty Name="DEPORTE1" Relationship="Self.FK__CANCHA__DEPORTE__33D4B598" FromRole="CANCHA" ToRole="DEPORTE" />
+          <NavigationProperty Name="PISO_CANCHA1" Relationship="Self.FK__CANCHA__PISO_CAN__34C8D9D1" FromRole="CANCHA" ToRole="PISO_CANCHA" />
+          <NavigationProperty Name="HORA" Relationship="Self.FK__HORA__CANCHA__38996AB5" FromRole="CANCHA" ToRole="HORA" />
+        </EntityType>
+        <EntityType Name="COMPLEJO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UBICACION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LANDLORD" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CANCHA" Relationship="Self.FK__CANCHA__COMPLEJO__35BCFE0A" FromRole="COMPLEJO" ToRole="CANCHA" />
+          <NavigationProperty Name="LANDLORD1" Relationship="Self.FK__COMPLEJO__LANDLO__2D27B809" FromRole="COMPLEJO" ToRole="LANDLORD" />
+        </EntityType>
+        <EntityType Name="DEPORTE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CANCHA" Relationship="Self.FK__CANCHA__DEPORTE__33D4B598" FromRole="DEPORTE" ToRole="CANCHA" />
+        </EntityType>
+        <EntityType Name="HORA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BLOQUE_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DISPONIBLE" Type="Boolean" />
+          <Property Name="CANCHA" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CANCHA1" Relationship="Self.FK__HORA__CANCHA__38996AB5" FromRole="HORA" ToRole="CANCHA" />
+          <NavigationProperty Name="RESERVA" Relationship="Self.FK__RESERVA__HORA__3E52440B" FromRole="HORA" ToRole="RESERVA" />
+        </EntityType>
+        <EntityType Name="LANDLORD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RUT" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="COMPLEJO" Relationship="Self.FK__COMPLEJO__LANDLO__2D27B809" FromRole="LANDLORD" ToRole="COMPLEJO" />
+        </EntityType>
+        <EntityType Name="PISO_CANCHA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CANCHA" Relationship="Self.FK__CANCHA__PISO_CAN__34C8D9D1" FromRole="PISO_CANCHA" ToRole="CANCHA" />
+        </EntityType>
+        <EntityType Name="RESERVA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VIGENCIA" Type="Boolean" Nullable="false" />
+          <Property Name="HORA" Type="Int32" Nullable="false" />
+          <Property Name="TENANT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HORA1" Relationship="Self.FK__RESERVA__HORA__3E52440B" FromRole="RESERVA" ToRole="HORA" />
+          <NavigationProperty Name="TENANT1" Relationship="Self.FK__RESERVA__TENANT__3F466844" FromRole="RESERVA" ToRole="TENANT" />
+        </EntityType>
+        <EntityType Name="TENANT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RUN" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RESERVA" Relationship="Self.FK__RESERVA__TENANT__3F466844" FromRole="TENANT" ToRole="RESERVA" />
+        </EntityType>
+        <Association Name="FK__CANCHA__COMPLEJO__35BCFE0A">
+          <End Role="COMPLEJO" Type="Self.COMPLEJO" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPLEJO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="COMPLEJO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANCHA__DEPORTE__33D4B598">
+          <End Role="DEPORTE" Type="Self.DEPORTE" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPORTE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="DEPORTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANCHA__PISO_CAN__34C8D9D1">
+          <End Role="PISO_CANCHA" Type="Self.PISO_CANCHA" Multiplicity="1" />
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PISO_CANCHA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CANCHA">
+              <PropertyRef Name="PISO_CANCHA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HORA__CANCHA__38996AB5">
+          <End Role="CANCHA" Type="Self.CANCHA" Multiplicity="1" />
+          <End Role="HORA" Type="Self.HORA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CANCHA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HORA">
+              <PropertyRef Name="CANCHA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__COMPLEJO__LANDLO__2D27B809">
+          <End Role="LANDLORD" Type="Self.LANDLORD" Multiplicity="1" />
+          <End Role="COMPLEJO" Type="Self.COMPLEJO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LANDLORD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMPLEJO">
+              <PropertyRef Name="LANDLORD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVA__HORA__3E52440B">
+          <End Role="HORA" Type="Self.HORA" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="HORA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVA__TENANT__3F466844">
+          <End Role="TENANT" Type="Self.TENANT" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TENANT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="TENANT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GolazoContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CANCHA" EntityType="Self.CANCHA" />
+          <EntitySet Name="COMPLEJO" EntityType="Self.COMPLEJO" />
+          <EntitySet Name="DEPORTE" EntityType="Self.DEPORTE" />
+          <EntitySet Name="HORA" EntityType="Self.HORA" />
+          <EntitySet Name="LANDLORD" EntityType="Self.LANDLORD" />
+          <EntitySet Name="PISO_CANCHA" EntityType="Self.PISO_CANCHA" />
+          <EntitySet Name="RESERVA" EntityType="Self.RESERVA" />
+          <EntitySet Name="TENANT" EntityType="Self.TENANT" />
+          <AssociationSet Name="FK__CANCHA__COMPLEJO__35BCFE0A" Association="Self.FK__CANCHA__COMPLEJO__35BCFE0A">
+            <End Role="COMPLEJO" EntitySet="COMPLEJO" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANCHA__DEPORTE__33D4B598" Association="Self.FK__CANCHA__DEPORTE__33D4B598">
+            <End Role="DEPORTE" EntitySet="DEPORTE" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANCHA__PISO_CAN__34C8D9D1" Association="Self.FK__CANCHA__PISO_CAN__34C8D9D1">
+            <End Role="PISO_CANCHA" EntitySet="PISO_CANCHA" />
+            <End Role="CANCHA" EntitySet="CANCHA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HORA__CANCHA__38996AB5" Association="Self.FK__HORA__CANCHA__38996AB5">
+            <End Role="CANCHA" EntitySet="CANCHA" />
+            <End Role="HORA" EntitySet="HORA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__COMPLEJO__LANDLO__2D27B809" Association="Self.FK__COMPLEJO__LANDLO__2D27B809">
+            <End Role="LANDLORD" EntitySet="LANDLORD" />
+            <End Role="COMPLEJO" EntitySet="COMPLEJO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVA__HORA__3E52440B" Association="Self.FK__RESERVA__HORA__3E52440B">
+            <End Role="HORA" EntitySet="HORA" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVA__TENANT__3F466844" Association="Self.FK__RESERVA__TENANT__3F466844">
+            <End Role="TENANT" EntitySet="TENANT" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GolazoDBModelStoreContainer" CdmEntityContainer="GolazoContext">
+          <EntitySetMapping Name="CANCHA">
+            <EntityTypeMapping TypeName="GolazoDBModel.CANCHA">
+              <MappingFragment StoreEntitySet="CANCHA">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="VALOR_HORA" ColumnName="VALOR_HORA" />
+                <ScalarProperty Name="DEPORTE" ColumnName="DEPORTE" />
+                <ScalarProperty Name="PISO_CANCHA" ColumnName="PISO_CANCHA" />
+                <ScalarProperty Name="COMPLEJO" ColumnName="COMPLEJO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPLEJO">
+            <EntityTypeMapping TypeName="GolazoDBModel.COMPLEJO">
+              <MappingFragment StoreEntitySet="COMPLEJO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="UBICACION" ColumnName="UBICACION" />
+                <ScalarProperty Name="LANDLORD" ColumnName="LANDLORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPORTE">
+            <EntityTypeMapping TypeName="GolazoDBModel.DEPORTE">
+              <MappingFragment StoreEntitySet="DEPORTE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HORA">
+            <EntityTypeMapping TypeName="GolazoDBModel.HORA">
+              <MappingFragment StoreEntitySet="HORA">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BLOQUE_HORARIO" ColumnName="BLOQUE_HORARIO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="DISPONIBLE" ColumnName="DISPONIBLE" />
+                <ScalarProperty Name="CANCHA" ColumnName="CANCHA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LANDLORD">
+            <EntityTypeMapping TypeName="GolazoDBModel.LANDLORD">
+              <MappingFragment StoreEntitySet="LANDLORD">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PISO_CANCHA">
+            <EntityTypeMapping TypeName="GolazoDBModel.PISO_CANCHA">
+              <MappingFragment StoreEntitySet="PISO_CANCHA">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESERVA">
+            <EntityTypeMapping TypeName="GolazoDBModel.RESERVA">
+              <MappingFragment StoreEntitySet="RESERVA">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="VIGENCIA" ColumnName="VIGENCIA" />
+                <ScalarProperty Name="HORA" ColumnName="HORA" />
+                <ScalarProperty Name="TENANT" ColumnName="TENANT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TENANT">
+            <EntityTypeMapping TypeName="GolazoDBModel.TENANT">
+              <MappingFragment StoreEntitySet="TENANT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RUN" ColumnName="RUN" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
