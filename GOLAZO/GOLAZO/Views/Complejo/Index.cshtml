@@ -1,46 +1,31 @@
 ﻿@model IEnumerable<GOLAZO.Models.COMPLEJO>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Complejos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Complejos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Complejo", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UBICACION)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LANDLORD)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UBICACION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LANDLORD)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+
+@foreach (var item in Model)
+{
+
+<div class="card">
+    <a href="@Url.Action("Detalles", "Details", new { id = item.ID })">
+        <div class="card-body">
+            <h2><b>@Html.DisplayFor(modelItem => item.NOMBRE)</b></h2>
+            <p>@Html.DisplayFor(modelItem => item.UBICACION)</p>
+        </div>
+    </a>
+    <div>
+        @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
+    </div>
+</div>
+
 }
-
-</table>
